@@ -12,22 +12,22 @@ public class SnakeWorld extends World {
     private int dy=0;
     private int tailCounter = 5;
     private boolean dead = false;
-    Score score = new Score();    
+    Score score = new Score();
 
     /**
      * Constructor for objects of class SnakeWorld.
      */
     public SnakeWorld() {
-        super(25, 20, 32);
+        super(40, 30, 20);
         SnakeBody body = new SnakeBody();
         snake.add(body);
-        addObject(body, 2, 2);
-        
+        addObject(body, 19, 14);
+
         Apple apple = new Apple();
         addObject(apple, 
             Greenfoot.getRandomNumber(getWidth()-2) +1, 
             Greenfoot.getRandomNumber(getHeight()-2)+1);
-        
+
         Banana banana = new Banana();
         addObject(banana, 
             Greenfoot.getRandomNumber(getWidth()-2) +1, 
@@ -40,9 +40,9 @@ public class SnakeWorld extends World {
             addObject(new Border(), 0, y);
             addObject(new Border(), getWidth() - 1, y);
         }
-
+        addObject(score, 2, 1);
     }
-    
+
     public Score getScore(){
         return score;
     }
@@ -55,12 +55,12 @@ public class SnakeWorld extends World {
         SnakeBody newHead  = new SnakeBody();
         int newHeadX = head.getX() + dx;
         int newHeadY = head.getY() + dy;
-        
+
         List<Block> blocks = getObjectsAt(newHeadX, newHeadY, Block.class);
         for(Block block : blocks) {
             block.collision(this);
         }
-        
+
         addObject(newHead, newHeadX, newHeadY);
         snake.add(newHead);
         if(tailCounter ==0){
@@ -69,8 +69,12 @@ public class SnakeWorld extends World {
         } else {
             tailCounter--;
         }
+        if(dead) {
+            displayGameOver();
+            return;
+        }
     }
-    
+
     private void changeDirection() {
         if(Greenfoot.isKeyDown("left") && dx ==0) {
             dx = -1;
@@ -89,12 +93,17 @@ public class SnakeWorld extends World {
             dy = -1;
         }
     }
-    
+
     public void dead() {
         dead = true;
     }
-    
+
     public void grow(int size) {
         tailCounter+=size;
+    }
+
+    public void displayGameOver() {
+        showText("Game Over", getWidth() / 2, getHeight() / 2);
+        Greenfoot.stop(); // Memberhentikan permainan setelah menampilkan "Game Over"
     }
 }
