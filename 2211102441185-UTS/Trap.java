@@ -1,23 +1,16 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*; 
 
-/**
- * Write a description of class Trap here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-public class Trap extends Actor
-{
-    /**
-     * Act - do whatever the Trap wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        if (Greenfoot.getRandomNumber(100) < 1) {
-            int randomX = Greenfoot.getRandomNumber(getWorld().getWidth());
-            int randomY = Greenfoot.getRandomNumber(getWorld().getHeight());
-            setLocation(randomX, randomY);
+public class Trap extends Actor {
+    public void act() {
+        SnakeWorld world = (SnakeWorld) getWorld();
+        if (isTouching(SnakeBody.class)) {
+            int currentTailSize = world.getTailCounter(); // Use the getter method
+            if (currentTailSize > 0) {
+                world.grow(-1);
+            } else {
+                world.dead();
+            }
+            getWorld().removeObject(this);
         }
     }
 }

@@ -1,11 +1,6 @@
 import greenfoot.*;
 import java.util.*;
-/**
- * Write a description of class SnakeWorld here.
- *
- * @author Xavier MARIN
- * @version 0.0.1
- */
+
 public class SnakeWorld extends World {
     private LinkedList<SnakeBody> snake = new LinkedList<SnakeBody>();
     private int dx=1;
@@ -13,7 +8,6 @@ public class SnakeWorld extends World {
     private int tailCounter = 5;
     private boolean dead = false;
     Score score = new Score();
-
     /**
      * Constructor for objects of class SnakeWorld.
      */
@@ -41,6 +35,10 @@ public class SnakeWorld extends World {
             addObject(new Border(), getWidth() - 1, y);
         }
         addObject(score, 2, 1);
+
+        Trap trap = new Trap();
+        addObject(trap, Greenfoot.getRandomNumber(getWidth() - 2) + 1,
+            Greenfoot.getRandomNumber(getHeight() - 2) + 1);
     }
 
     public Score getScore(){
@@ -92,6 +90,7 @@ public class SnakeWorld extends World {
             dx = 0;
             dy = -1;
         }
+
     }
 
     public void dead() {
@@ -106,4 +105,9 @@ public class SnakeWorld extends World {
         showText("Game Over", getWidth() / 2, getHeight() / 2);
         Greenfoot.stop(); // Memberhentikan permainan setelah menampilkan "Game Over"
     }
+
+    public int getTailCounter() {
+        return tailCounter;
+    }
 }
+
